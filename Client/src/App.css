@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+
+@layer components {
+  .box_holder {
+    @apply bg-white max-w-[350px] sm:max-w-[400px] md:max-w-[600px] lg:max-w-[900px] xl:max-w-[1200px] mx-auto items-center justify-center py-8 px-6 rounded-3xl shadow-[5px_20px_62px_10px_#00000024] duration-200 ease-in-out lg:py-[100px] lg:px-10;
+  }
+  .btn {
+    @apply bg-primary-color text-white px-4 py-2 rounded-md duration-200 ease-in-out;
+  }
+}
