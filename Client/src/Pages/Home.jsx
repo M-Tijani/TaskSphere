@@ -1,9 +1,10 @@
 import Blocks from "../assets/Books.png";
+import { Link } from "react-router-dom";
 
 function Home() {
   return (
-    <div className="box_holder flex flex-col justify-start gap-3 lg:flex-row">
-      <div className="w-full flex flex-col gap-3 lg:w-1/2">
+    <div className="box_holder flex flex-col-reverse justify-start gap-3 lg:flex-row">
+      <div className="text-quaternary-color w-full flex flex-col gap-3 lg:w-1/2">
         <h1 className="text-2xl lg:text-3xl font-bold">
           TaskSphere makes it easier for you to manage projects and tasks
         </h1>
@@ -27,7 +28,14 @@ function Home() {
             <h1>Unlimited Power-Ups per board</h1>
           </div>
         </div>
-        <button className="btn w-[200px]">REGISTER</button>
+        <div className="flex gap-3">
+          <Link className="w-full max-w-[200px]" to="/register">
+            <button className="btn_main w-full">Register</button>
+          </Link>
+          <Link className="w-full max-w-[200px]" to="/login">
+            <button className="btn_secondary w-full">Login</button>
+          </Link>
+        </div>
       </div>
       <div className=" lg:w-1/2 flex justify-center items-center">
         <img src={Blocks} alt="" />
