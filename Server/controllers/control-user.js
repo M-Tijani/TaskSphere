@@ -20,7 +20,16 @@ const GetUsers = async (req, res) => {
 const CreateUser = async (req, res) => {
   const user = new User(req.body);
   try {
+    // Check if the filds are empty
+    if (!user.username) {
+      return res.status(400).json({ message: "Please fill username" });
+    } else if (!user.email) {
+      return res.status(400).json({ message: "Please fill email" });
+    } else if (!user.password) {
+      return res.status(400).json({ message: "Please fill password" });
+    }
     user.password = await bcrypt.hash(user.password, saltRounds);
+
     const checkpoint = await User.findOne({ email: user.email });
     if (checkpoint) {
       res.status(400).json({ emailExists: "Email already exists" });
@@ -38,26 +47,34 @@ const CreateUser = async (req, res) => {
 };
 
 const LoginWithUser = async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, email } = req.body;
   try {
-    const user = await User.findOne({ username: username });
+    const user = await User.findOne({ email: email });
+
+    // Check if the filds are empty
+    if (!password) {
+      return res.status(400).json({ message: "Please fill password" });
+    } else if (!email) {
+      return res.status(400).json({ message: "Please fill email" });
+    }
+
     if (user) {
       const isMatch = await bcrypt.compare(password, user.password);
       if (isMatch) {
         const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
           expiresIn: "10d",
         });
-
+        res.cookie("token", token, { httpOnly: true });
         res.status(200).json({
           message: "Login Successful",
-          user: user,
+          email: email,
           token: token,
         });
       } else {
         res.status(400).json({ message: "Invalid Password" });
       }
     } else {
-      res.status(400).json({ message: "Invalid Username" });
+      res.status(400).json({ message: "Invalid Email or Username" });
     }
   } catch (err) {
     res.status(500).json({ message: err.message });
