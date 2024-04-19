@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 export default function Register() {
+  // const elem = 
   const [password, setPassword] = useState("");
   const [type1, setType1] = useState("password");
   const [icon1, setIcon1] = useState(eyeOff);

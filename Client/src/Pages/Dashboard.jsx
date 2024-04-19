@@ -1,7 +1,9 @@
+import Dash_Slider from "../Components/Dash_Slider";
+
 export default function Dashboard() {
   return (
     <div>
-      <h1>Dashboard</h1>
+      <Dash_Slider />
     </div>
   );
 }

@@ -1,20 +1,17 @@
 import Contact from "../assets/Contact Phone.svg";
 // Icons
-
 import { FaGoogle } from "react-icons/fa";
 import { FaGithubAlt } from "react-icons/fa";
-
 import { Mail } from "lucide-react";
 import { Lock } from "lucide-react";
 import { ShieldAlert } from "lucide-react";
-
 //
 import { Icon } from "react-icons-kit";
 import { eyeOff } from "react-icons-kit/feather/eyeOff";
 import { eye } from "react-icons-kit/feather/eye";
 
 // States
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 // routs
 import { useNavigate } from "react-router-dom";
@@ -22,8 +19,7 @@ import { Link } from "react-router-dom";
 // Animation
 import { motion } from "framer-motion";
 // Auth
-
-import createStore from "react-auth-kit/createStore";
+// import Cookies from "js-cookie";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -31,26 +27,31 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [fileds, setFields] = useState("");
 
+  // Set Cookies
+  const [token, setToken] = useState("");
+  const [emailCookie, setEmailCookie] = useState("");
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/v1/user/login",
+        "http://localhost:4000/api/v1/user/login",
         {
           username: username,
           email: email,
           password: password,
         }
       );
-
-      const store = createStore({
-        authName: "_auth",
-        authType: "cookie",
-        cookieDomain: window.location.hostname,
-        cookieSecure: window.location.protocol === "https:",
-      });
-      // navigate("/dashboard");
       console.log(response);
+      // let token1 = response.data.token;
+      // let emailCookie1 = response.data.email;
+
+      // setToken(token1);
+      // setEmailCookie(emailCookie1);
+
+      // Cookies.set("token", token);
+      // Cookies.set("email", emailCookie);
+      // Navigate
+      navigate("/dashboard");
     } catch (err) {
       const response = err.response.data.message;
       setFields(response);

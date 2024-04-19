@@ -2,17 +2,16 @@ const express = require("express");
 const router = express.Router();
 
 const Auth = require("../auth/auth-user");
-
+const session = require("../auth/auth-token");
 const API_VERSION = "v1";
 // Import User Model
 const {
   GetUsers,
   CreateUser,
-  LoginWithUser,
   UpdateUser,
   DeleteUser,
 } = require("../controllers/control-user");
-
+const { LoginWithUser } = require("../controllers/loginwithusuer");
 const {
   NewPost,
   GetPosts,
@@ -21,6 +20,7 @@ const {
 } = require("../controllers/control-post");
 
 router.use(express.json());
+
 router.get(`/${API_VERSION}/users`, GetUsers);
 router.post(`/${API_VERSION}/user/register`, CreateUser);
 router.post(`/${API_VERSION}/user/login`, LoginWithUser);
