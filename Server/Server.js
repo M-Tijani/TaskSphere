@@ -8,12 +8,38 @@ require("dotenv").config();
 // PORT
 const PORT = process.env.PORT || 3001;
 
+const session = require("express-session");
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false },
+  })
+);
+
 // DATABASE
 const mongoose = require("mongoose");
 
 // Middleware
-app.use(cors());
 app.use(express.json());
+
+app.use(express.urlencoded({ extended: true }));
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      const origins = String(process.env.CORS_ORIGIN).split(",");
+      if (!origin || origins.includes(String(origin))) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed."), false);
+      }
+    },
+    credentials: true,
+    optionsSuccessStatus: 200,
+  })
+);
 app.use("/api", router);
 
 try {
